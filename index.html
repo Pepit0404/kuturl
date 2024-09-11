@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Short    
+    </title>
+    <link rel="stylesheet" href="/style/style.css">
+    <script src="script/script.js"></script>
+</head>
+<body onload="initPage()">
+    <section id="headband">
+        <h1 class="title">Make a personalized link</h1>
+    </section>
+    <section id="body">
+        <form id="generator">
+            <h1 class="toto text-Indicator">Short a link</h1>
+            <h2 class="tutu text-Indicator">Original URL</h2>
+            <label>
+                <input type="url" id="origin" required="" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+            </label>
+            <h2 class="tutu text-Indicator">Link wanted</h2>
+            <label class="one-line">
+                <label>
+                    <input class="disabled" id="domain" type="text" disabled="" value="short.dev">
+                </label>
+                /
+                <label id="wanted">
+                    <input id="short" type="text" pattern="[a-zA-Z0-9]*" minlength="3" placeholder="pepito">
+                </label>
+            </label>
+            <button id="execute" type="submit" value="CREATE">CREATE</button>
+        </form>
+    </section>
+    <section id="footer">
+        Make by Pepito
+    </section>
+</body>

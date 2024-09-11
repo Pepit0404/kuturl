@@ -1,0 +1,81 @@
+:root {
+  --primary-color: #44475A;
+  --primary-shadow-color: #282A36;
+  --secondary-color: #F1FA8C;
+}
+
+body {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background-color: var(--primary-shadow-color);
+}
+body .title {
+  color: var(--secondary-color);
+  font-size: 3.5rem;
+  text-align: center;
+}
+body #body {
+  border-radius: 1rem;
+  background-color: var(--primary-color);
+  padding: 2rem;
+  border: #000 1px solid;
+}
+body #body #generator {
+  min-width: 50vw;
+  max-width: 75vw;
+}
+body #body .toto {
+  margin: 0;
+  font-size: 2rem;
+}
+body #body .tutu {
+  margin: 0.2rem 0 0.4rem 0;
+  font-size: 1.4rem;
+}
+body #body .text-Indicator {
+  color: #F8F8F2;
+}
+body #body #origin {
+  min-width: 50vw;
+  max-width: 75vw;
+}
+body #body input, body #body button {
+  border-radius: 0.5rem;
+  border: var(--primary-shadow-color) 2px solid;
+  font-size: 1.1rem;
+  padding: 0.4rem;
+  background: var(--primary-color);
+  color: #F8F8F2;
+}
+body #body input#domain, body #body button#domain {
+  max-width: 6rem;
+  text-align: center;
+}
+body #body .one-line {
+  color: #F8F8F2;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-direction: row;
+}
+body #body .one-line #wanted {
+  flex-grow: 1;
+  display: flex;
+}
+body #body .one-line #wanted #short {
+  flex-grow: 1;
+}
+body #body #execute {
+  margin-top: 1.2rem;
+  width: 100%;
+  background-color: var(--secondary-color);
+  color: var(--primary-shadow-color);
+}
+body #footer {
+  position: absolute;
+  bottom: 0px;
+  color: var(--secondary-color);
+  padding-bottom: 5px;
+}/*# sourceMappingURL=style.css.map */

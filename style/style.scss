@@ -1,0 +1,100 @@
+$primary-color: #44475A;
+$primary-shadow-color: #282A36;
+$secondary-color: #F1FA8C;
+
+:root{
+    --primary-color: #44475A;
+    --primary-shadow-color: #282A36;
+    --secondary-color: #F1FA8C;
+}
+
+body{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+
+    background-color: var(--primary-shadow-color);
+
+    .title{
+        color: var(--secondary-color);
+        font-size: 3.5rem;
+        text-align: center;
+    }
+    
+    #body{
+        border-radius: 1rem;
+        background-color: var(--primary-color);
+        padding: 2rem;
+        border: #000 1px solid; 
+
+        #generator{
+            min-width: 50vw;
+            max-width: 75vw;
+        }
+
+        .toto{
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .tutu{
+            margin: .2rem 0 .4rem 0;
+            font-size: 1.4rem;
+        }
+
+        .text-Indicator{
+            color: #F8F8F2;
+        }
+
+        #origin{
+            min-width: 50vw;
+            max-width: 75vw;
+        }
+
+        input, button{
+            border-radius: 0.5rem;
+            border: var(--primary-shadow-color) 2px solid;
+            font-size: 1.1rem;
+            padding: 0.4rem;
+            background: var(--primary-color);    
+
+            color: #F8F8F2;
+
+            &#domain{
+                max-width: 6rem;
+                text-align: center;
+            }
+        }
+
+        .one-line{
+            color: #F8F8F2;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex-direction: row;
+
+            #wanted{
+                flex-grow: 1;
+                display: flex;
+                #short{
+                    flex-grow: 1;
+                }
+            }
+        }
+
+        #execute{
+            margin-top: 1.2rem;
+            width: 100%;
+            background-color: var(--secondary-color);
+            color: var(--primary-shadow-color);
+        }
+    }
+
+    #footer{
+        position: absolute;
+        bottom: 0px;
+        color: var(--secondary-color);
+        padding-bottom: 5px;
+    }
+}   
