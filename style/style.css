@@ -4,43 +4,52 @@
   --secondary-color: #F1FA8C;
 }
 
-body {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  background-color: var(--primary-shadow-color);
-}
-body .title {
+h1 {
   color: var(--secondary-color);
   font-size: 3.5rem;
   text-align: center;
 }
-body #body {
+
+h2 {
+  margin: 0;
+  font-size: 2.5rem;
+}
+
+h3 {
+  margin: 1rem 0 0.4rem 0;
+  font-size: 1.8em;
+}
+
+body {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  height: calc(100vh - 6rem);
+  width: calc(100vw - 6rem);
+  padding: 2rem;
+  background-color: var(--primary-shadow-color);
+}
+body #card {
   border-radius: 1rem;
   background-color: var(--primary-color);
   padding: 2rem;
   border: #000 1px solid;
+  max-width: 70vw;
+  min-width: 60vw;
+  height: -moz-fit-content;
+  height: fit-content;
 }
-body #body #generator {
-  min-width: 50vw;
-  max-width: 75vw;
+body #card #generator {
+  padding: 1rem;
 }
-body #body .toto {
-  margin: 0;
-  font-size: 2rem;
-}
-body #body .tutu {
-  margin: 0.2rem 0 0.4rem 0;
-  font-size: 1.4rem;
-}
-body #body .text-Indicator {
+body #card .text-Indicator {
   color: #F8F8F2;
 }
-body #body #origin {
-  min-width: 50vw;
-  max-width: 75vw;
+body #card #origin {
+  max-width: 70vw;
+  min-width: 60vw;
 }
-body #body input, body #body button {
+body #card input, body #card button {
   border-radius: 0.5rem;
   border: var(--primary-shadow-color) 2px solid;
   font-size: 1.1rem;
@@ -48,11 +57,11 @@ body #body input, body #body button {
   background: var(--primary-color);
   color: #F8F8F2;
 }
-body #body input#domain, body #body button#domain {
+body #card input#domain, body #card button#domain {
   max-width: 6rem;
   text-align: center;
 }
-body #body .one-line {
+body #card .one-line {
   color: #F8F8F2;
   font-size: 1.5rem;
   display: flex;
@@ -60,22 +69,45 @@ body #body .one-line {
   gap: 0.3rem;
   flex-direction: row;
 }
-body #body .one-line #wanted {
+body #card .one-line #wanted {
   flex-grow: 1;
   display: flex;
 }
-body #body .one-line #wanted #short {
+body #card .one-line #wanted #short {
   flex-grow: 1;
 }
-body #body #execute {
+body #card #execute {
   margin-top: 1.2rem;
   width: 100%;
   background-color: var(--secondary-color);
   color: var(--primary-shadow-color);
+  font-size: 1.5rem;
 }
 body #footer {
   position: absolute;
   bottom: 0px;
   color: var(--secondary-color);
   padding-bottom: 5px;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  h3 {
+    margin: 0.7rem 0 0.4rem 0;
+    font-size: 1.3rem;
+  }
+  body {
+    height: calc(100vh - 2rem);
+    width: calc(100vw - 2rem);
+    padding: 1rem;
+  }
+  body #card .one-line #wanted #short {
+    max-width: 35vw;
+  }
 }/*# sourceMappingURL=style.css.map */

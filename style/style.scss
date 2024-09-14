@@ -8,38 +8,44 @@ $secondary-color: #F1FA8C;
     --secondary-color: #F1FA8C;
 }
 
+h1{
+    color: var(--secondary-color);
+    font-size: 3.5rem;
+    text-align: center;
+}
+
+h2{
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+h3{
+    margin: 1rem 0 .4rem 0;
+    font-size: 1.8em;
+}
+
 body{
     display: flex;
     flex-flow: column;
     align-items: center;
 
-    background-color: var(--primary-shadow-color);
+    height: calc(100vh - 6rem);
+    width: calc(100vw - 6rem);
+    padding: 2rem;
 
-    .title{
-        color: var(--secondary-color);
-        font-size: 3.5rem;
-        text-align: center;
-    }
+    background-color: var(--primary-shadow-color);
     
-    #body{
+    #card{
         border-radius: 1rem;
         background-color: var(--primary-color);
         padding: 2rem;
         border: #000 1px solid; 
+        max-width: 70vw;
+        min-width: 60vw;
+        height: fit-content;
 
         #generator{
-            min-width: 50vw;
-            max-width: 75vw;
-        }
-
-        .toto{
-            margin: 0;
-            font-size: 2rem;
-        }
-
-        .tutu{
-            margin: .2rem 0 .4rem 0;
-            font-size: 1.4rem;
+            padding: 1rem;
         }
 
         .text-Indicator{
@@ -47,8 +53,8 @@ body{
         }
 
         #origin{
-            min-width: 50vw;
-            max-width: 75vw;
+            max-width: 70vw;
+            min-width: 60vw;
         }
 
         input, button{
@@ -59,6 +65,7 @@ body{
             background: var(--primary-color);    
 
             color: #F8F8F2;
+            
 
             &#domain{
                 max-width: 6rem;
@@ -88,6 +95,7 @@ body{
             width: 100%;
             background-color: var(--secondary-color);
             color: var(--primary-shadow-color);
+            font-size: 1.5rem;
         }
     }
 
@@ -97,4 +105,37 @@ body{
         color: var(--secondary-color);
         padding-bottom: 5px;
     }
-}   
+}
+
+
+@media (max-width: 600px) {
+    h1{
+        font-size: 2.5rem;
+    }
+    
+    h2{
+        margin: 0;
+        font-size: 2rem;
+    }
+    
+    h3{
+        margin: .7rem 0 .4rem 0;
+        font-size: 1.3rem;
+    }
+
+    body{
+        height: calc(100vh - 2rem);
+        width: calc(100vw - 2rem);
+        padding: 1rem;
+
+        #card{
+            .one-line{
+                #wanted{
+                    #short{
+                        max-width: 35vw;
+                    }
+                }
+            }
+        }
+    }
+}
