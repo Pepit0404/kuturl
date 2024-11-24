@@ -78,7 +78,7 @@ function site(array $params) : void
                 $success = false;
             }
             else {
-                $gw->insert([
+                $success = $gw->insert([
                     "long" => $target,
                     "short" => $short
                 ]);

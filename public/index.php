@@ -40,7 +40,7 @@
         <?php
         $error = $error ?? [];
         $success = $success ?? null;
-        if ($success != null || !$success) {
+        if ($success == null || !$success) {
             foreach ($error as $e) {
                 print "<p>$e</p>";
             }
@@ -51,7 +51,6 @@
     </section>
     <section id="notification"></section>
     <section id="footer">
-        Make by Pepito
+        Made by Pepito
     </section>
-
 </body>
