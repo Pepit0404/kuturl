@@ -83,6 +83,25 @@ body #card #execute {
   color: var(--primary-shadow-color);
   font-size: 1.5rem;
 }
+body #notification {
+  display: none;
+  position: absolute;
+  bottom: 10rem;
+  font-size: 2rem;
+  background-color: var(--primary-color);
+  border: #000 2px solid;
+  border-radius: 1rem;
+  padding: 0.6rem;
+}
+body #notification.ok {
+  background-color: green;
+}
+body #notification.error {
+  background-color: red;
+}
+body #notification p {
+  margin: 0;
+}
 body #footer {
   position: absolute;
   bottom: 0px;
