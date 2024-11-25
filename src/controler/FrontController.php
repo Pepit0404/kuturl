@@ -54,7 +54,7 @@ function redirect(array $params) : void
 }
 
 
-function site(array $params) : void
+function site(array $params) : void // TODO: add an popup to say if success or fail
 {
     global $env;
 
@@ -62,7 +62,8 @@ function site(array $params) : void
 
     $short = $_POST["shortCut"] ?? null; // TODO: faire un aléatoire si rien de précisé
     $target = $_POST["target"] ?? null;
-    if ($short != null && $target != null) {
+    $oldCommand = $_SESSION['oldCommand'] ?? null;
+    if ($short != null && $target != null && $oldCommand != $short.$target && $oldCommand != null) { // if parameter exist and not already do
         $error = Validation::EntryValidation($short, $target);
         if (empty($error)) {
             $gw = new URLGateWay(new Connection(
@@ -82,6 +83,7 @@ function site(array $params) : void
                     "long" => $target,
                     "short" => $short
                 ]);
+                $_SESSION["oldCommand"] = $short.$target;
             }
         } else $success = false;
     }

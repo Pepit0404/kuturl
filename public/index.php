@@ -20,12 +20,12 @@
     </section>
     <section id="card">
         <form method="post" id="generator">
-            <h2 class="text-Indicator">Short a link</h2>
+            <h2 class="text-Indicator">Short URL</h2>
             <h3 class="text-Indicator">Original URL</h3>
             <label>
                 <input name="target" type="url" id="origin" required="" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
             </label>
-            <h3 class="text-Indicator">Link wanted</h3>
+            <h3 class="text-Indicator">Desired Link</h3>
             <label class="one-line">
                 <label>
                     <input class="disabled" id="domain" type="text" disabled="" value="short.dev">
