@@ -106,32 +106,9 @@ body{
         }
     }
 
-    #notification{
-        display: none;
-        position: absolute;
-        bottom: 10rem;
-        font-size: 2rem;
-        background-color: var(--primary-color);
-        border: #000 2px solid;
-        border-radius: 1rem;
-        padding: .6rem;
-
-        &.ok{
-            background-color: green;
-        }
-
-        &.error{
-            background-color: red;
-        }
-
-        p{
-            margin: 0;
-        }
-    }
-
     #footer{
         position: absolute;
-        bottom: 0px;
+        bottom: 0;
         color: var(--secondary-color);
         padding-bottom: 5px;
     }

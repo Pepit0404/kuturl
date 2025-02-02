@@ -2,7 +2,7 @@ function createShort() {
     let original = document.getElementById("origin").value;
     let shorter = document.getElementById("short").value;
 
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open("POST", `api/createShort`, true);
     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
@@ -21,7 +21,7 @@ function createShort() {
     };
 
     // Send data as key-value pairs
-    var data = `original=${original}&shorter=${shorter}`;
+    let data = `original=${original}&shorter=${shorter}`;
     xhr.send(data);
 }
 

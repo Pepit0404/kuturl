@@ -50,7 +50,13 @@ function redirect(array $params) : void
 
     $gw = new URLGateWay();
     $newURL = $gw->find(["short" => $params["url"]]);
-    header("Location: ".$newURL[0]["longUrl"]);
+    if ($newURL) {
+        header("Location: ".$newURL[0]["longUrl"]);
+    } else {
+        http_response_code(404);
+        // include(); // TODO: mettre une page 404
+        die();
+    }
 }
 
 
