@@ -16,23 +16,30 @@ class NotificationCenter {
             icon: this.message.icon,
             title: this.message.title,
             subtitle: this.message.subtitle,
-            actions: this.message.actions
+            actions: this.message.actions,
+            url: this.message.url
         });
         const transY = 100 * this.items.length;
 
         note.el.style.transform = `translateY(${transY}%)`;
-        note.el.addEventListener("click",this.killNote.bind(this,note.id));
+        note.el.addEventListener("click",this.killNote.bind(this,note.id,this.message.url));
 
         this.items.push(note);
     }
     spawnNotes(amount) {
         // TODO: faire en sorte que s'il y a plusieurs message qu'il y est plusieurs notification
     }
-    killNote(id,e) {
+    killNote(id,url,e) {
         const note = this.items.find(item => item.id === id);
         const tar = e.target;
 
-        // console.log(e.target.textContent);
+
+        if (e.target.textContent === "Copy") {
+            navigator.clipboard.writeText(url)
+                .catch(err => {
+                    console.error("Erreur lors de la copie :", err);
+                });
+        }
 
         if (note && tar.getAttribute("data-dismiss") === id) {
             note.el.classList.add("notification--out");
@@ -162,13 +169,14 @@ class Notification {
     }
 }
 
-function CreateNotification(icon, title, subtitle, action) {
+function CreateNotification(icon, title, subtitle, action, url) {
     const nc = new NotificationCenter({
         icon: icon,
         title: title,
         subtitle: subtitle,
-        actions: action
-    })
+        actions: action,
+        url: url
+    });
 }
 
 function NotificationMessages() {

@@ -9,14 +9,15 @@ function createShort() {
     xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
             const response = JSON.parse(xhr.responseText);
-            const icon = response.success ? "success" : "error";
-            const title = response.success ? "Link created" : "Error";
-            CreateNotification(icon, title, response.message[0], ["Close", "Copy"]);
+            const icon = response.success ? "success" : "warning";
+            const title = response.success ? "Link created" : "Warning";
+            const actions = response.success ? ["Close", "Copy"] : ["Close"];
+            CreateNotification(icon, title, response.message[0], actions, `${document.URL}${response.uri}`);
             if (response.success) {
                 document.getElementById("origin").value = "";
                 document.getElementById("short").value = "";
             }
-        }
+        } // TODO: afficher un message d'erreur
     };
 
     // Send data as key-value pairs

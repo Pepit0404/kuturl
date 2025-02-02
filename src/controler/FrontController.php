@@ -70,7 +70,8 @@ function api(array $params) : void
     {
         $response = array(
             "success" => false,
-            "message" => array('One of the parameter is empty')
+            "message" => array('One of the parameter is empty'),
+            "uri" => ""
         );
 
         $jsonResponse = json_encode($response);
@@ -103,7 +104,8 @@ function api(array $params) : void
 
     $response = array(
         "success" => $success,
-        "message" => $error
+        "message" => $error,
+        "uri" => $short
     );
 
     $jsonResponse = json_encode($response);
