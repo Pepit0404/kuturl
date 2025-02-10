@@ -6,9 +6,15 @@ class URLGateWay implements IGateway
 {
     private Connection $con;
 
-    public function __construct(Connection $con)
+    public function __construct()
     {
-        $this->con = $con;
+        global $env;
+
+        $this->con = new Connection(
+            "mysql:host=".$env['MYSQL_HOST'].";dbname=".$env['MYSQL_DATABASE'],
+            $env['MYSQL_USER'],
+            $env['MYSQL_PASSWORD']
+        );
     }
 
     public function find(array $data) : array // [
@@ -19,7 +25,7 @@ class URLGateWay implements IGateway
     }
 
     public function update(array $data) : bool // TODO
-    {}
+    {return false;}
 
     public function insert(array $data) : bool
     {
@@ -40,5 +46,5 @@ class URLGateWay implements IGateway
     }
 
     public function delete(array $data) : bool // TODO
-    {}
+    {return false;}
 }
