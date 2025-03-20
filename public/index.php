@@ -60,10 +60,6 @@
         </label>
         <button id="execute" onclick="createShort()" value="CREATE">CREATE</button>
     </section>
-    <section id="notification">
-        <h1>Sucess</h1>
-        <p>Link has been created</p>
-    </section>
     <section id="footer">
         Made by Pepito
     </section>
