@@ -10,7 +10,7 @@ services:
       link:
         ipv4_address: 10.5.0.2
 
-  web:
+  php:
     container_name: kuturl_web
     build: .
     ports:
