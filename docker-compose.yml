@@ -1,0 +1,30 @@
+version: '3.0'
+
+services:
+  db:
+    container_name: kuturl_db
+    build: DB/
+    ports:
+      - "3366:3306"
+    networks:
+      link:
+        ipv4_address: 10.5.0.2
+
+  php:
+    container_name: kuturl_web
+    build: .
+    ports:
+      - "4480:80"
+    networks:
+      link:
+        ipv4_address: 10.5.0.3
+    depends_on: [db]
+
+networks:
+  link:
+    name: link_kuturl
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+          gateway: 10.5.0.1
