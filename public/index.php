@@ -51,9 +51,9 @@
         <h3 class="text-Indicator">Desired Link</h3>
         <label class="one-line">
             <label>
-                <input class="disabled" id="domain" type="text" disabled="" value="kut.sam">
+                <input class="disabled" id="domain" type="text" disabled="" value="kut.samuel-pinto.fr">
             </label>
-            /
+            <span>/</span>
             <label id="wanted">
                 <input name="shortCut" id="short" type="text" pattern="[a-zA-Z0-9]*" minlength="3" placeholder="pepito">
             </label>

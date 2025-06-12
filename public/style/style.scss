@@ -39,6 +39,7 @@ body{
     height: calc(100vh - 6rem);
     width: calc(100vw - 6rem);
     padding: 2rem;
+    margin: 0;
 
     background-color: var(--primary-shadow-color);
     
@@ -60,8 +61,8 @@ body{
         }
 
         #origin{
-            max-width: 70vw;
-            min-width: 60vw;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         input, button{
@@ -69,6 +70,7 @@ body{
             border: var(--primary-shadow-color) 2px solid;
             font-size: 1.1rem;
             padding: 0.4rem;
+            box-sizing: border-box;
             background: var(--primary-color);    
 
             color: var(--primary-text-color);
@@ -86,14 +88,27 @@ body{
             display: flex;
             align-items: center;
             gap: 0.3rem;
-            flex-direction: row;
+            flex-flow: row nowrap;
 
-            #wanted{
+            * {
+                flex-grow: 0;
+            }
+
+            > label {
+                box-sizing: border-box;
+            }
+
+            #domain {
+                width: fit-content;
+                max-width: none;
+            }
+
+            #wanted {
                 flex-grow: 1;
-                display: flex;
-                #short{
-                    flex-grow: 1;
-                }
+            }
+
+            #wanted #short {
+                width: 100%;
             }
         }
 
@@ -111,6 +126,38 @@ body{
         bottom: 0;
         color: var(--secondary-color);
         padding-bottom: 5px;
+    }
+}
+
+@media (max-width: 600px) {
+    h1{
+        font-size: 2.5rem;
+    }
+    
+    h2{
+        margin: 0;
+        font-size: 2rem;
+    }
+    
+    h3{
+        margin: .7rem 0 .4rem 0;
+        font-size: 1.3rem;
+    }
+
+    body{
+        height: calc(100vh - 2rem);
+        width: calc(100vw - 2rem);
+        padding: 1rem;
+    }
+
+    .one-line {
+        > label:first-child, span {
+            display: none;
+        }
+
+        #wanted, #short {
+            box-sizing: border-box;
+        }
     }
 }
 
@@ -285,37 +332,5 @@ body{
     }
     to {
         transform: translateX(calc(100% + 1.5em));
-    }
-}
-
-@media (max-width: 600px) {
-    h1{
-        font-size: 2.5rem;
-    }
-    
-    h2{
-        margin: 0;
-        font-size: 2rem;
-    }
-    
-    h3{
-        margin: .7rem 0 .4rem 0;
-        font-size: 1.3rem;
-    }
-
-    body{
-        height: calc(100vh - 2rem);
-        width: calc(100vw - 2rem);
-        padding: 1rem;
-
-        #card{
-            .one-line{
-                #wanted{
-                    #short{
-                        max-width: 35vw;
-                    }
-                }
-            }
-        }
     }
 }

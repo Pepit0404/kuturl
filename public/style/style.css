@@ -32,6 +32,7 @@ body {
   height: calc(100vh - 6rem);
   width: calc(100vw - 6rem);
   padding: 2rem;
+  margin: 0;
   background-color: var(--primary-shadow-color);
 }
 body #card {
@@ -41,6 +42,7 @@ body #card {
   border: #000 1px solid;
   max-width: 70vw;
   min-width: 60vw;
+  height: -moz-fit-content;
   height: fit-content;
 }
 body #card #generator {
@@ -50,14 +52,15 @@ body #card .text-Indicator {
   color: var(--primary-text-color);
 }
 body #card #origin {
-  max-width: 70vw;
-  min-width: 60vw;
+  width: 100%;
+  box-sizing: border-box;
 }
 body #card input, body #card button {
   border-radius: 0.5rem;
   border: var(--primary-shadow-color) 2px solid;
   font-size: 1.1rem;
   padding: 0.4rem;
+  box-sizing: border-box;
   background: var(--primary-color);
   color: var(--primary-text-color);
 }
@@ -71,14 +74,24 @@ body #card .one-line {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-  flex-direction: row;
+  flex-flow: row nowrap;
+}
+body #card .one-line * {
+  flex-grow: 0;
+}
+body #card .one-line > label {
+  box-sizing: border-box;
+}
+body #card .one-line #domain {
+  width: -moz-fit-content;
+  width: fit-content;
+  max-width: none;
 }
 body #card .one-line #wanted {
   flex-grow: 1;
-  display: flex;
 }
 body #card .one-line #wanted #short {
-  flex-grow: 1;
+  width: 100%;
 }
 body #card #execute {
   margin-top: 1.2rem;
@@ -94,6 +107,30 @@ body #footer {
   padding-bottom: 5px;
 }
 
+@media (max-width: 600px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    margin: 0;
+    font-size: 2rem;
+  }
+  h3 {
+    margin: 0.7rem 0 0.4rem 0;
+    font-size: 1.3rem;
+  }
+  body {
+    height: calc(100vh - 2rem);
+    width: calc(100vw - 2rem);
+    padding: 1rem;
+  }
+  .one-line > label:first-child, .one-line span {
+    display: none;
+  }
+  .one-line #wanted, .one-line #short {
+    box-sizing: border-box;
+  }
+}
 .notification {
   padding-bottom: 0.75em;
   position: fixed;
@@ -185,7 +222,8 @@ body #footer {
   padding: 0 0.5rem;
   transition: background-color var(--transDur), color var(--transDur);
   -webkit-appearance: none;
-  appearance: none;
+  -moz-appearance: none;
+       appearance: none;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -274,27 +312,4 @@ body #footer {
   to {
     transform: translateX(calc(100% + 1.5em));
   }
-}
-@media (max-width: 600px) {
-  h1 {
-    font-size: 2.5rem;
-  }
-  h2 {
-    margin: 0;
-    font-size: 2rem;
-  }
-  h3 {
-    margin: 0.7rem 0 0.4rem 0;
-    font-size: 1.3rem;
-  }
-  body {
-    height: calc(100vh - 2rem);
-    width: calc(100vw - 2rem);
-    padding: 1rem;
-  }
-  body #card .one-line #wanted #short {
-    max-width: 35vw;
-  }
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */

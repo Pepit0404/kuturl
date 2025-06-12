@@ -2,8 +2,7 @@ FROM php:8.0-apache
 
 WORKDIR /var/www/html
 
-COPY index.php .
-COPY . .env .
+COPY ./ .env /var/www/html/
 
 RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
 RUN a2enmod rewrite
