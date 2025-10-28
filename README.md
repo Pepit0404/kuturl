@@ -5,6 +5,7 @@ Minimalist url shortener
 **Clone the project:**
 ```bash
 git clone https://github.com/Pepit0404/kuturl.git
+cd kuturl
 ```
 
 **Start the application:**
