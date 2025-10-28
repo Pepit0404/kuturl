@@ -4,27 +4,35 @@ services:
   db:
     container_name: kuturl_db
     build: DB/
+    volumes:
+      - ./kuturl-data:/var/lib/mysql
     ports:
       - "3366:3306"
     networks:
-      link:
-        ipv4_address: 10.5.0.2
+      - kuturl_network
 
-  php:
-    container_name: kuturl_web
-    build: .
+  api:
+    container_name: kuturl_api
+    build: api/
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: kuturl
+      MYSQL_USER: kuturl
+      MYSQL_PASSWORD: shorterurl
+    ports:
+      - "5502:5502"
+    networks:
+      - kuturl_network
+    depends_on: [db]
+
+  front:
+    container_name: kuturl_front
+    build: web/
     ports:
       - "4480:80"
     networks:
-      link:
-        ipv4_address: 10.5.0.3
-    depends_on: [db]
-
+      - kuturl_network
+  
 networks:
-  link:
-    name: link_kuturl
+  kuturl_network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 10.5.0.0/16
-          gateway: 10.5.0.1
