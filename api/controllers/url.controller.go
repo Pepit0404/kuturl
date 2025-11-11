@@ -5,10 +5,23 @@ import (
 	"kuturl/app"
 	"kuturl/models"
 	"log"
+	"math/rand"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+const SHORTER_URL_LENTH = 5
+
+func generateShorterUrl(n int) string {
+	shorter := make([]byte, n)
+	for i := range shorter {
+		shorter[i] = characters[rand.Intn(len(characters))]
+	}
+
+	return string(shorter)
+}
 
 type URLController interface {
 	GetOriginalURL(c *gin.Context) (int, any)
@@ -47,8 +60,7 @@ func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
 	var shorterURL string
 	tmpShorterURL := c.PostForm("shorter_url")
 	if tmpShorterURL == "" {
-		return http.StatusBadRequest, "Short URL parameter is missing"
-		// shorterURL = "" TODO: generate a new short URL here
+		shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
 	} else {
 		shorterURL = tmpShorterURL
 	}
@@ -59,14 +71,20 @@ func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
 		CountUse: 0,
 	}
 
-	_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
-	if err != nil {
-		if err != sql.ErrNoRows {
-			return http.StatusConflict, "Short URL already exists"
+	for {
+		_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
+		if err != nil {
+			if err != sql.ErrNoRows && tmpShorterURL != "" {
+				return http.StatusConflict, "Short URL already exists"
+			} else if err != sql.ErrNoRows {
+				shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
+			} else {
+				break
+			}
 		}
-		// Short URL does not exist, proceed to create
 	}
 
+	// Short URL does not exist, proceed to create
 	createdURL, err := ctrl.app.Services.URLService.CreateShortURL(url)
 	if err != nil {
 		return http.StatusInternalServerError, err
