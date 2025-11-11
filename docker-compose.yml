@@ -1,5 +1,3 @@
-version: '3.0'
-
 services:
   db:
     container_name: kuturl_db
@@ -8,6 +6,7 @@ services:
       - ./kuturl-data:/var/lib/mysql
     ports:
       - "3366:3306"
+    restart: unless-stopped
     networks:
       - kuturl_network
 
@@ -21,6 +20,7 @@ services:
       MYSQL_PASSWORD: shorterurl
     ports:
       - "5502:5502"
+    restart: unless-stopped
     networks:
       - kuturl_network
     depends_on: [db]
@@ -30,6 +30,7 @@ services:
     build: web/
     ports:
       - "4480:80"
+    restart: unless-stopped
     networks:
       - kuturl_network
   

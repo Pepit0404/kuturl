@@ -19,7 +19,7 @@ function createShort() {
             if ( response.message.lenght === 0 && success) {
                 response.message.push("Your short link has been created successfully.");
             }
-            CreateNotification(icon, title, response.message, actions, `${document.URL}${response.uri}`);
+            CreateNotification(icon, title, response.message, actions, `${document.URL}${response.result.short_url}`);
             if (success) {
                 document.getElementById("origin").value = "";
                 document.getElementById("short").value = "";
