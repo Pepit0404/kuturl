@@ -18,7 +18,7 @@ class FrontController
             $router->setBasePath($env["BASEPATH"]);
 
             $router->addRoute("/", "Site");
-            $router->addRoute("/api", "API");
+            $router->addRoute("/api/[*:]", "API");
             $router->addRoute("/[string:url]", "Redirect");
 
             $match = $router->match();
@@ -57,57 +57,49 @@ function site(array $params) : void
 
 function api(array $params) : void
 {
-    $BASE_URL = "http://kuturl_api:4481/api";
+    $BASE_URL = "http://kuturl_api:4481";
 
-    $route = $_GET['route'] ?? null;
-    $type = $_GET['type'] ?? null;
-    if ($route === null) {
-        http_response_code(400);
-        echo json_encode([
-            "success" => false,
-            "message" => ["No route specified"],
-            "uri" => ""
-        ]);
-        return;
-    } elseif ($type === null) {
-        http_response_code(400);
-        echo json_encode([
-            "success" => false,
-            "message" => ["No type specified"],
-            "uri" => ""
-        ]);
-        return;
-    }
+    $uri = $_SERVER['REQUEST_URI'];
+
+    $request = $BASE_URL . $uri;
 
     $curl=curl_init();
+    curl_setopt($curl, CURLOPT_URL, $request);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($curl, CURLOPT_HEADER, true);
+    curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
 
-    switch (strtoupper($type)) {
-        case "GET":
-            curl_setopt($curl, CURLOPT_HTTPGET, true);
-            $data = http_build_query($params);
-            break;
-        case "POST":
-            $postParameters = json_decode($_POST["data"], true) ?? null;
+    curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $_SERVER['REQUEST_METHOD']);
 
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($postParameters));
-            break;
-        case "PUT":
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PUT");
-            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($params));
-            break;
-        case "DELETE":
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
-            break;
+    $postParameters = file_get_contents('php://input') ?? null;
+    if (!empty($postParameters)) {
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $postParameters);
     }
 
-    $path = $BASE_URL . $route;
-    curl_setopt($curl, CURLOPT_URL, $path);
+    // ** --- HEADERS --- **
+    $request_headers = getallheaders();
+    $curl_headers = [];
+    foreach ($request_headers as $key => $value) {
+        if (!in_array(strtolower($key), ['host', 'connection', 'content-length', 'accept-encoding'])) {
+            $curl_headers[] = "$key: $value";
+        }
+    }
 
-    $json_response=curl_exec($curl);
+    if (!empty($curl_headers)) {
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $curl_headers);
+    }
+
+    $response=curl_exec($curl);
+    
+    $header_size = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
+    $response_body = substr($response, $header_size);
+    $http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+    
+    
+    http_response_code($http_code);
+
     curl_close($curl);
     
-    echo $json_response;
+    echo $response_body;
     return;
 }

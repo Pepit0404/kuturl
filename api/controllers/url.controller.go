@@ -11,6 +11,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+type RequestBody struct {
+	Original_url string `json:"original_url"`
+	Shorter_url  string `json:"shorter_url"`
+}
+
 const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
 const SHORTER_URL_LENTH = 5
 
@@ -52,13 +57,18 @@ func (ctrl *Controller) GetOriginalURL(c *gin.Context) (int, any) {
 }
 
 func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
-	originalURL := c.PostForm("original_url")
-	if originalURL == "" {
+	var requestData RequestBody
+
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		return http.StatusBadRequest, err.Error()
+	}
+
+	if requestData.Original_url == "" {
 		return http.StatusBadRequest, "Original URL parameter is missing"
 	}
 
 	var shorterURL string
-	tmpShorterURL := c.PostForm("shorter_url")
+	tmpShorterURL := requestData.Shorter_url
 	if tmpShorterURL == "" {
 		shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
 	} else {
@@ -66,7 +76,7 @@ func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
 	}
 
 	url := &models.URL{
-		LongURL:  originalURL,
+		LongURL:  requestData.Original_url,
 		ShortURL: shorterURL,
 		CountUse: 0,
 	}

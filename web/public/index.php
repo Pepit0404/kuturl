@@ -46,7 +46,7 @@
         <h2 class="text-Indicator">Short URL</h2>
         <h3 class="text-Indicator">Original URL</h3>
         <label>
-            <input name="target" type="url" id="origin" required="" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+            <input name="target" type="url" id="origin" placeholder="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
         </label>
         <h3 class="text-Indicator">Desired Link</h3>
         <label class="one-line">
