@@ -13,5 +13,5 @@ func Url(app *app.App, router *gin.RouterGroup) {
 	urlController := controllers.NewURLController(app)
 
 	url.GET("/:short", utils.Response(urlController.GetOriginalURL))
-	url.POST("/", utils.Response(urlController.CreateShortURL))
+	url.POST("", utils.Response(urlController.CreateShortURL))
 }

@@ -5,10 +5,23 @@ import (
 	"kuturl/app"
 	"kuturl/models"
 	"log"
+	"math/rand"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
+const SHORTER_URL_LENTH = 5
+
+func generateShorterUrl(n int) string {
+	shorter := make([]byte, n)
+	for i := range shorter {
+		shorter[i] = characters[rand.Intn(len(characters))]
+	}
+
+	return string(shorter)
+}
 
 type URLController interface {
 	GetOriginalURL(c *gin.Context) (int, any)
@@ -39,35 +52,47 @@ func (ctrl *Controller) GetOriginalURL(c *gin.Context) (int, any) {
 }
 
 func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
-	originalURL := c.PostForm("original_url")
-	if originalURL == "" {
+	var requestData models.URL
+
+	if err := c.ShouldBindJSON(&requestData); err != nil {
+		return http.StatusBadRequest, err.Error()
+	}
+
+	if requestData.LongURL == "" {
 		return http.StatusBadRequest, "Original URL parameter is missing"
 	}
 
+	requestData.CountUse = 0
+
 	var shorterURL string
-	tmpShorterURL := c.PostForm("shorter_url")
-	if tmpShorterURL == "" {
-		return http.StatusBadRequest, "Short URL parameter is missing"
-		// shorterURL = "" TODO: generate a new short URL here
+	if requestData.ShortURL == "" {
+		shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
 	} else {
-		shorterURL = tmpShorterURL
+		shorterURL = requestData.ShortURL
 	}
 
-	url := &models.URL{
-		LongURL:  originalURL,
-		ShortURL: shorterURL,
-		CountUse: 0,
-	}
-
-	_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
-	if err != nil {
-		if err != sql.ErrNoRows {
-			return http.StatusConflict, "Short URL already exists"
+	/*log.Println(tmpShorterURL != "")
+	_, err := ctrl.app.Services.URLService.GetOriginalURL("git")
+	log.Println(err != sql.ErrNoRows && tmpShorterURL != "")
+	return http.StatusInternalServerError, "tkt"*/
+	for {
+		_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
+		if err == nil {
+			// log.Println(err != sql.ErrNoRows && requestData.ShortURL != "")
+			if requestData.ShortURL != "" {
+				return http.StatusConflict, "Short URL already exists"
+			} else if err != sql.ErrNoRows {
+				shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
+			}
+		} else if err == sql.ErrNoRows {
+			break
 		}
-		// Short URL does not exist, proceed to create
 	}
 
-	createdURL, err := ctrl.app.Services.URLService.CreateShortURL(url)
+	requestData.ShortURL = shorterURL
+
+	// Short URL does not exist, proceed to create
+	createdURL, err := ctrl.app.Services.URLService.CreateShortURL(&requestData)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
