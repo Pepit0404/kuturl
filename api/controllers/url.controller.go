@@ -11,11 +11,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RequestBody struct {
-	Original_url string `json:"original_url"`
-	Shorter_url  string `json:"shorter_url"`
-}
-
 const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789"
 const SHORTER_URL_LENTH = 5
 
@@ -57,45 +52,47 @@ func (ctrl *Controller) GetOriginalURL(c *gin.Context) (int, any) {
 }
 
 func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
-	var requestData RequestBody
+	var requestData models.URL
 
 	if err := c.ShouldBindJSON(&requestData); err != nil {
 		return http.StatusBadRequest, err.Error()
 	}
 
-	if requestData.Original_url == "" {
+	if requestData.LongURL == "" {
 		return http.StatusBadRequest, "Original URL parameter is missing"
 	}
 
+	requestData.CountUse = 0
+
 	var shorterURL string
-	tmpShorterURL := requestData.Shorter_url
-	if tmpShorterURL == "" {
+	if requestData.ShortURL == "" {
 		shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
 	} else {
-		shorterURL = tmpShorterURL
+		shorterURL = requestData.ShortURL
 	}
 
-	url := &models.URL{
-		LongURL:  requestData.Original_url,
-		ShortURL: shorterURL,
-		CountUse: 0,
-	}
-
+	/*log.Println(tmpShorterURL != "")
+	_, err := ctrl.app.Services.URLService.GetOriginalURL("git")
+	log.Println(err != sql.ErrNoRows && tmpShorterURL != "")
+	return http.StatusInternalServerError, "tkt"*/
 	for {
 		_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
-		if err != nil {
-			if err != sql.ErrNoRows && tmpShorterURL != "" {
+		if err == nil {
+			// log.Println(err != sql.ErrNoRows && requestData.ShortURL != "")
+			if requestData.ShortURL != "" {
 				return http.StatusConflict, "Short URL already exists"
 			} else if err != sql.ErrNoRows {
 				shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
-			} else {
-				break
 			}
+		} else if err == sql.ErrNoRows {
+			break
 		}
 	}
 
+	requestData.ShortURL = shorterURL
+
 	// Short URL does not exist, proceed to create
-	createdURL, err := ctrl.app.Services.URLService.CreateShortURL(url)
+	createdURL, err := ctrl.app.Services.URLService.CreateShortURL(&requestData)
 	if err != nil {
 		return http.StatusInternalServerError, err
 	}
