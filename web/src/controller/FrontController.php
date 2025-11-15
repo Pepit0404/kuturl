@@ -57,7 +57,7 @@ function site(array $params) : void
 
 function api(array $params) : void
 {
-    $BASE_URL = "http://kuturl_api:5502/api";
+    $BASE_URL = "http://kuturl_api:4481/api";
 
     $route = $_GET['route'] ?? null;
     $type = $_GET['type'] ?? null;

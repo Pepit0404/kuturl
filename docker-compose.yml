@@ -19,7 +19,7 @@ services:
       MYSQL_USER: kuturl
       MYSQL_PASSWORD: shorterurl
     ports:
-      - "5502:5502"
+      - "4481:4481"
     restart: unless-stopped
     networks:
       - kuturl_network
