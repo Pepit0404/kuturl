@@ -55,7 +55,7 @@
             </label>
             <span>/</span>
             <label id="wanted">
-                <input name="shortCut" id="short" type="text" pattern="[a-zA-Z0-9]*" minlength="3" placeholder="pepito">
+                <input name="shortCut" id="short" type="text" pattern="[a-zA-Z0-9]*" minlength="3" placeholder="pepito (optional)">
             </label>
         </label>
         <button id="execute" onclick="createShort()" value="CREATE">CREATE</button>
