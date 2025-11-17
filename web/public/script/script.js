@@ -1,5 +1,11 @@
 const BASE_API = "api";
 
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && event.target.nodeName === "INPUT") {
+        createShort();
+    }
+});
+
 function createShort() {
     let original = document.getElementById("origin").value;
     let shorter = document.getElementById("short").value;
