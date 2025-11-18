@@ -71,14 +71,9 @@ func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
 		shorterURL = requestData.ShortURL
 	}
 
-	/*log.Println(tmpShorterURL != "")
-	_, err := ctrl.app.Services.URLService.GetOriginalURL("git")
-	log.Println(err != sql.ErrNoRows && tmpShorterURL != "")
-	return http.StatusInternalServerError, "tkt"*/
 	for {
 		_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
 		if err == nil {
-			// log.Println(err != sql.ErrNoRows && requestData.ShortURL != "")
 			if requestData.ShortURL != "" {
 				return http.StatusConflict, "Short URL already exists"
 			} else if err != sql.ErrNoRows {

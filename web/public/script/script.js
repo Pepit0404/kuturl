@@ -48,7 +48,7 @@ function redirectTo() {
             const response = JSON.parse(xhr.responseText);
             const success = response.status === "success";
             if (success) {
-                window.location.href = response.result.long_url;
+                window.location.href = response.result.original_url;
             } else {
                 window.location.href = baseUrl;
             }
