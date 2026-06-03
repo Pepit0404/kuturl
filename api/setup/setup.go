@@ -13,13 +13,14 @@ import (
 func SetupServer() (*gin.Engine, *app.App) {
 	godotenv.Load()
 
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-		os.Exit(1)
+	if os.Getenv("ENVIRONMENT") != "docker" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Fatal("Error loading .env file")
+			os.Exit(1)
+		}
+		log.Println("Environment variables loaded successfully")
 	}
-
-	log.Println("Environment variables loaded successfully")
 
 	config := app.Config{}
 	config.Port = os.Getenv("PORT")

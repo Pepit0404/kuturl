@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"crypto/rand"
 	"database/sql"
 	"kuturl/app"
 	"kuturl/models"
 	"log"
-	"math/rand"
+	"math/big"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,12 @@ const SHORTER_URL_LENTH = 5
 func generateShorterUrl(n int) string {
 	shorter := make([]byte, n)
 	for i := range shorter {
-		shorter[i] = characters[rand.Intn(len(characters))]
+		idx, err := rand.Int(rand.Reader, big.NewInt(int64(len(characters))))
+		if err != nil {
+			return ""
+		}
+		shorter[i] = characters[idx.Int64()]
+
 	}
 
 	return string(shorter)
@@ -72,16 +78,19 @@ func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
 	}
 
 	for {
-		_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
-		if err == nil {
+		if shorterURL != "" {
+			_, err := ctrl.app.Services.URLService.GetOriginalURL(shorterURL)
+			if err == sql.ErrNoRows {
+				break
+			}
+			if err != nil {
+				return http.StatusInternalServerError, err
+			}
 			if requestData.ShortURL != "" {
 				return http.StatusConflict, "Short URL already exists"
-			} else if err != sql.ErrNoRows {
-				shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
 			}
-		} else if err == sql.ErrNoRows {
-			break
 		}
+		shorterURL = generateShorterUrl(SHORTER_URL_LENTH)
 	}
 
 	requestData.ShortURL = shorterURL
@@ -92,5 +101,5 @@ func (ctrl *Controller) CreateShortURL(c *gin.Context) (int, any) {
 		return http.StatusInternalServerError, err
 	}
 
-	return http.StatusOK, createdURL
+	return http.StatusCreated, createdURL
 }

@@ -1,25 +1,42 @@
 services:
   db:
+    image: mysql:8.0
     container_name: kuturl_db
-    build: DB/
+    environment:
+      MYSQL_USER: ${DB_USER:-kuturl}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-password}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DN_NAME:-kuturl}
+    restart: unless-stopped
     volumes:
       - ./kuturl-data:/var/lib/mysql
     ports:
-      - "3366:3306"
-    restart: unless-stopped
+      - "${DB_EXTERNAL_PORT:-3366}:3306"
     networks:
       - kuturl_network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysql -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} -e 'SELECT 1' $${MYSQL_DATABASE}",
+        ]
+      timeout: 10s
+      retries: 5
+      interval: 30s
+      start_period: 30s
 
   api:
     container_name: kuturl_api
     build: api/
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: kuturl
-      MYSQL_USER: kuturl
-      MYSQL_PASSWORD: shorterurl
+      PORT: ${API_PORT:-4481}
+      DB_USER: ${DB_USER:-kuturl}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+      DB_NAME: ${DB_NAME:-kuturl}
+      DB_HOST: ${DB_HOST:-kuturl_db}
+      DB_PORT: ${DB_PORT:-3306}
     ports:
-      - "4481:4481"
+      - "${API_PORT:-4481}:4481"
     restart: unless-stopped
     networks:
       - kuturl_network
@@ -28,12 +45,14 @@ services:
   front:
     container_name: kuturl_front
     build: web/
+    environment:
+      BASEPATH: "${FRONTEND_BASEPATH:-}"
     ports:
-      - "4480:80"
+      - "${FRONTEND_PORT:-4480}:80"
     restart: unless-stopped
     networks:
       - kuturl_network
-  
+
 networks:
   kuturl_network:
     driver: bridge

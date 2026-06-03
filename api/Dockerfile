@@ -8,13 +8,14 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o kuturl-api .
 
-ENTRYPOINT ["./kuturl-api"]
+FROM alpine:3.11 AS deploy
 
-# # BUILD
-# FROM gcr.io/distroless/static-debian12:nonroot
-# 
-# WORKDIR /app
-# 
-# EXPOSE 5502
-# 
-# ENTRYPOINT ["./kuturl-api"]
+WORKDIR /app
+
+ENV ENVIRONMENT=docker
+
+COPY ./sql ./sql
+COPY --from=builder /app/kuturl-api .
+
+EXPOSE 4481
+ENTRYPOINT ["./kuturl-api"]
