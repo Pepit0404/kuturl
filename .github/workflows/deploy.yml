@@ -1,9 +1,9 @@
-name: Deploy on Push
+name: Deploy on release
 
 on:
-  workflow_run:
-    workflows: ["Release"]
-    types: [completed]
+  release:
+    types:
+      - published
 
 jobs:
   deploy:
