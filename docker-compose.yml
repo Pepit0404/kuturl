@@ -6,10 +6,10 @@ services:
       MYSQL_USER: ${DB_USER:-kuturl}
       MYSQL_PASSWORD: ${DB_PASSWORD:-password}
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
-      MYSQL_DATABASE: ${DN_NAME:-kuturl}
+      MYSQL_DATABASE: ${DB_NAME:-kuturl}
     restart: unless-stopped
     volumes:
-      - ./kuturl-data:/var/lib/mysql
+      - kuturl-data:/var/lib/mysql
     ports:
       - "${DB_EXTERNAL_PORT:-3366}:3306"
     networks:
@@ -45,6 +45,8 @@ services:
   front:
     container_name: kuturl_front
     build: web/
+    volumes:
+      - ./web:/var/www/html:Z
     environment:
       BASEPATH: "${FRONTEND_BASEPATH:-}"
     ports:
@@ -56,3 +58,6 @@ services:
 networks:
   kuturl_network:
     driver: bridge
+
+volumes:
+  kuturl-data:

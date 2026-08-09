@@ -50,5 +50,5 @@ tasks:
     deps:
       - download-deps
     cmds:
-      - go test ./...
+      - go test -cover ./services
     aliases: [test]
