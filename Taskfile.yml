@@ -1,0 +1,54 @@
+version: "3"
+
+vars:
+  API_DIR: api/
+
+dotenv:
+  - .env
+
+tasks:
+  download-deps:
+    desc: Download Go module dependencies for the API
+    dir: api/
+    cmds:
+      - go mod download
+    aliases: [deps, download]
+
+  ensure-db:
+    desc: Ensure MySQL container is running and ready. Starts docker compose db if necessary and waits for readiness.
+    cmds:
+      - |
+        if ! mysqladmin ping -h "${DB_HOST:-127.0.0.1}" -P "$${DB_EXTERNAL_PORT:-3306}" -u "${DB_USER:-root}" -p"${DB_PASSWORD:-}" --silent; then
+          echo "MySQL not reachable, starting Docker container..."
+          docker compose up -d db
+        fi
+        echo "Waiting for MySQL to accept connections..."
+        echo "MySQL is up"
+
+  run-api:
+    desc: Run the API locally (requires DB)
+    dir: api/
+    deps:
+      - ensure-db
+      - download-deps
+    cmds:
+      - go run main.go
+    aliases: [run, serve]
+
+  build-api:
+    desc: Build the API binary (static)
+    dir: $API_DIR
+    deps:
+      - download-deps
+    cmds:
+      - go build -a -installsuffix cgo -o kuturl-api .
+    aliases: [build]
+
+  test:
+    desc: Run Go tests for the API
+    dir: api/
+    deps:
+      - download-deps
+    cmds:
+      - go test -cover ./services
+    aliases: [test]

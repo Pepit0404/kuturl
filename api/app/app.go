@@ -32,7 +32,10 @@ type App struct {
 func InitializeApplication(config Config) *App {
 	var app App
 	app.Config = config
+
 	app.DB = DBConnection(config)
+	Migration(app.Config)
+
 	app.Services = Services{
 		URLService: services.NewUrlService(app.DB),
 	}

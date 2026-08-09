@@ -7,14 +7,9 @@ import (
 	"time"
 )
 
-func DBConnection(config Config) (connecton *sql.DB) {
+func DBConnection(config Config) *sql.DB {
 	User := os.Getenv("DB_USER")
 	Password := os.Getenv("DB_PASSWORD")
-
-	Type := os.Getenv("DB_TYPE")
-	if Type == "" {
-		Type = config.DB.Type
-	}
 
 	Host := os.Getenv("DB_HOST")
 	if Host == "" {
@@ -30,13 +25,18 @@ func DBConnection(config Config) (connecton *sql.DB) {
 	if Name == "" {
 		Name = config.DB.Name
 	}
-	log.Default().Println("Connecting to database:", Type, "on", Host+":"+Port, "with user", User)
+	log.Default().Println("Connecting to database: mysql", "on", Host+":"+Port, "with user", User)
 
-	connecton, err := sql.Open(Type, User+":"+Password+"@tcp("+Host+":"+Port+")/"+Name)
+	db, err := sql.Open("mysql", User+":"+Password+"@tcp("+Host+":"+Port+")/"+Name)
 	if err != nil {
-		panic(err.Error())
+		log.Fatal("invalid database config: %w", err)
+		panic(1)
 	}
 
-	connecton.SetConnMaxLifetime(time.Minute * 3)
-	return connecton
+	if err := db.Ping(); err != nil {
+		log.Fatal("database unreachable: %w", err)
+	}
+
+	db.SetConnMaxLifetime(time.Minute * 3)
+	return db
 }

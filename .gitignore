@@ -1,4 +1,7 @@
+**/.DS_STORE
+
 kuturl-data/
 .idea/
 /vendor/
 .vscode
+**/.env

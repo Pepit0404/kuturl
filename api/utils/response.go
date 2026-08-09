@@ -23,11 +23,14 @@ func Error(message any) gin.H {
 func Response(f func(c *gin.Context) (int, any)) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		code, body := f(c)
-		if code != 200 {
+		switch code {
+		case 200:
+			c.JSON(code, Success(body))
+		case 201:
+			c.JSON(code, Success(body))
+		default:
 			log.Default().Println("Error:", body)
 			c.JSON(code, Error(body))
-		} else {
-			c.JSON(code, Success(body))
 		}
 	}
 }
