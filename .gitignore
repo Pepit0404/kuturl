@@ -1,7 +1,38 @@
+# OS
 **/.DS_STORE
+Thumbs.db
 
-kuturl-data/
+# IDE & Editor
 .idea/
-/vendor/
 .vscode
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Dependencies
+/vendor/
+node_modules/
+
+# Environment
 **/.env
+.env.local
+.env.*.local
+
+# Data
+kuturl-data/
+
+# Go
+*.out
+*.test
+
+# Build & Dist
+dist/
+build/
+
+# IDE specific
+.task
+
+# Module files
+go.sum

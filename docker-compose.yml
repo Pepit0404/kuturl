@@ -45,8 +45,6 @@ services:
   front:
     container_name: kuturl_front
     build: web/
-    volumes:
-      - ./web:/var/www/html:Z
     environment:
       BASEPATH: "${FRONTEND_BASEPATH:-}"
     ports:

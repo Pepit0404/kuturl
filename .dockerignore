@@ -1,0 +1,61 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# CI/CD
+.github
+.gitlab-ci.yml
+.circleci
+.travis.yml
+
+# IDE & Editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Development
+node_modules
+npm-debug.log
+yarn-error.log
+.yarn
+vendor
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Documentation
+docs
+*.md
+LICENSE
+
+# Testing
+*.test
+*.out
+.coverage
+coverage.html
+
+# Build artifacts (if any)
+dist
+build
+
+# Docker
+docker-compose.yml
+docker-compose.*.yml
+Dockerfile.dev
+
+# Other
+kuturl-data/
+.task
+Taskfile.yml
