@@ -67,7 +67,7 @@ async function redirectTo() {
 
   const success = result.status === "success";
   if (success) {
-    window.location.href = response.result.original_url;
+    window.location.href = result.result.original_url;
   }
 }
 
